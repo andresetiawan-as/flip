@@ -8,6 +8,7 @@ import { faSearch, faArrowRight, faCircle, faSortDown } from '@fortawesome/free-
 const TransactionList = () => {
     const [input, setInput] = useState("")
     const [dataObj, setDataObj] = useState({})
+    const [sortName, setSortName] = useState("URUTKAN")
     let [dataSort, setDataSort] = useState([])
 
     useEffect(() => {
@@ -30,15 +31,12 @@ const TransactionList = () => {
     useEffect(() => {
         const timeOutId = setTimeout(() => {
             let nameFilter = Object.values(dataObj).filter((e) => e.beneficiary_name.toLowerCase().includes(input.toLowerCase()) || e.beneficiary_bank.toLowerCase().includes(input.toLowerCase()) || e.sender_bank.toLowerCase().includes(input.toLowerCase()))
-            // let bankFilter = Object.values(dataObj).filter((e) => e.beneficiary_bank.toLowerCase().includes(input.toLowerCase()))
-            // let filterResult = [...nameFilter, ...bankFilter]
 
             if(input !== ""){
                 setDataSort(nameFilter)
             }else{
                 setDataSort(Object.values(dataObj))
             }
-            // console.log(dataSort);
         }, 500);
         return () => clearTimeout(timeOutId);
     }, [input]);
@@ -48,19 +46,19 @@ const TransactionList = () => {
         switch (value) {
             case "1":
                 sortResult = Object.values(dataObj).sort((a, b) => a.beneficiary_name.localeCompare(b.beneficiary_name))
+                setSortName("Nama A-Z")
                 break;
             case "2":
                 sortResult = Object.values(dataObj).sort((a, b) => b.beneficiary_name.localeCompare(a.beneficiary_name))
+                setSortName("Nama Z-A")
                 break;
             case "3":
-                sortResult = Object.values(dataObj).sort((a, b) => {
-                    a.completed_at.localeCompare(b.completed_at)
-                })
+                sortResult = Object.values(dataObj).sort((a, b) => {a.completed_at.localeCompare(b.completed_at)})
+                setSortName("Tanggal Terbaru")
                 break;
             case "4":
-                sortResult = Object.values(dataObj).sort((a, b) => {
-                    b.completed_at.localeCompare(a.completed_at)
-                })
+                sortResult = Object.values(dataObj).sort((a, b) => {b.completed_at.localeCompare(a.completed_at)})
+                setSortName("Tanggal Terlama")
                 break;
 
             default:
@@ -93,19 +91,10 @@ const TransactionList = () => {
             <div className="search">
                 <FontAwesomeIcon className="icon" icon={faSearch} />
                 <input className='input' placeholder="Cari nama atau bank" type="text" value={input} onChange={e => setInput(e.target.value)}/>
-                {/* <div className="select_box">
-                    <select className="select" onChange={(e) => onSort(e.target.value)}>
-                        <option id="opt"  value="" disabled selected hidden>URUTKAN</option>
-                        <option id="opt"  value="1">Nama A-Z</option>
-                        <option id="opt" value="2">Nama Z-A</option>
-                        <option id="opt"  value="3">Tanggal terbaru</option>
-                        <option id="opt" value="4">Tanggal terlama</option>
-                    </select>
-                </div> */}
 
                 <div className="dropdown">
                     <button onClick={() => onShow()} className="dropbtn">
-                        URUTKAN <span><FontAwesomeIcon className="icon-sort" icon={faSortDown} /></span>
+                        {sortName} <span><FontAwesomeIcon className="icon-sort" icon={faSortDown} /></span>
                     </button>
                     <div id="myDropdown" className="dropdown-content">
                         <a href="#" onClick={() => onSort("1")}>Nama A-Z</a>
@@ -120,10 +109,10 @@ const TransactionList = () => {
                 dataSort.map((data) => {
                     return(
                         <Link className="link" key={data.id} 
-                        to={{ 
-                            pathname: `/transactoin-detail/${data.id}`, 
-                            state: dataObj
-                        }}
+                            to={{ 
+                                pathname: `/transactoin-detail/${data.id}`, 
+                                state: dataObj
+                            }}
                         >
                             <div className={data.status === "PENDING" ? "list border-pending" : "list border-done"}>
                                 <div>

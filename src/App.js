@@ -1,8 +1,8 @@
 import React, { Fragment } from 'react'
 import { BrowserRouter as Router, Switch, Route} from 'react-router-dom'
 import './App.css';
+import Home from './component/Home'
 import Transaction from './component/Transaction';
-import TransactionList from './component/TransactionList';
 
 function App() {
   return (
@@ -21,17 +21,5 @@ function App() {
     </Router>
   );
 }
-
-const Home = () => (
-  <Fragment>
-    <div className="content-header">
-      <h2>Halo Kak!</h2>
-      <h3>Kamu telah melakukan transaksi sebesar <span>Rp.5.000.000</span> sejak menggunakan Flip.</h3>
-    </div>
-
-    <TransactionList/>
-  </Fragment>
-)
-
 
 export default App;

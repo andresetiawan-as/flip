@@ -5,7 +5,6 @@ import { faInbox } from '@fortawesome/free-solid-svg-icons'
 import { Link, useParams } from 'react-router-dom';
 
 const Transaction = (props) => {
-    const [dataObj, setDataObj] = useState({})
     let {id} = useParams()
     let data = props.location.state[id]
 
