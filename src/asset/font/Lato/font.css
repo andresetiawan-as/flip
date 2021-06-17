@@ -1,0 +1,5 @@
+@font-face {
+    font-family: 'Lato-Regular';
+    src: local('Lato-Regular'),
+         url('./Lato-Light.tff') format('truetype')
+}
