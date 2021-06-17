@@ -25,7 +25,7 @@ const Transaction = (props) => {
 
     return (
         <div>
-            <div className="search">
+            <div className="search-detail">
                 <h3>ID TRANSAKSI: #{id}</h3>
                 {
                     data.status === "PENDING" ?
